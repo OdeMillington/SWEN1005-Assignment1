@@ -12,7 +12,7 @@
     /* --bg-clr: hsl(53, 77%, 90%) */
     --bg-clr:hsl(180, 47%, 31%);
     --date-clr:	hsl(18, 100%, 66%);
-    --date-clr-hover: hsl(18, 100%, 90%)
+    --date-clr-accordion: hsl(18, 100%, 90%)
 }
 
 body {
@@ -21,7 +21,7 @@ body {
 }
 
 .accordion {
-    background-color: wheat;
+    background-color: var(--date-clr-accordion);
     padding: 20px;
     overflow-y: scroll;
     max-height: 300px;
