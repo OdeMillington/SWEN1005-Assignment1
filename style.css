@@ -23,7 +23,7 @@ body {
 .accordion {
     background-color: wheat;
     padding: 20px;
-    overflow: scroll;
+    overflow-y: scroll;
     max-height: 300px;
     border-radius: 10px;
     display: none;
@@ -64,6 +64,6 @@ body {
     border-radius: 10px;
 }
 
-.dateContainer:hover {
+/* .dateContainer:hover {
     background-color: var(--date-clr-hover);
-}
+} */
