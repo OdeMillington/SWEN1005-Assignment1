@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+:root {
+    /* --bg-clr: hsl(53, 77%, 90%) */
+    --bg-clr:hsl(180, 47%, 31%);
+    --date-clr:	hsl(18, 100%, 66%);
+    --date-clr-hover: hsl(18, 100%, 90%)
+}
+
+body {
+    background-color: var(--bg-clr);
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px
+}
+
+.header {
+    min-width: 80%;
+}
+
+#searchTask {
+    border-radius: 10px;
+    border:none;
+    min-width: 100%;
+    padding: 10px 10px
+}
+
+#searchTask:focus {
+    outline: 2px solid var(--date-clr);
+}
+
+.calendarArea {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.dateContainer {
+    background-color: var(--date-clr);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.dateContainer:hover {
+    background-color: var(--date-clr-hover);
+}
