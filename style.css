@@ -20,6 +20,15 @@ body {
     height: 100vh;
 }
 
+.accordion {
+    background-color: wheat;
+    padding: 20px;
+    overflow: scroll;
+    max-height: 300px;
+    border-radius: 10px;
+    display: none;
+}
+
 .container {
     text-align: center;
     padding: 50px;
