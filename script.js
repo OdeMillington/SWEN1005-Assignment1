@@ -13,8 +13,6 @@ const generateCalendar = () => {
     let tmpDate = new Date(currentDate);
     tmpDate.setDate(currentDate.getDate() + i);
 
-    console.log(tmpDate)
-
     dateContainer.textContent = tmpDate.toDateString();
     calendarArea.appendChild(dateContainer)
 
