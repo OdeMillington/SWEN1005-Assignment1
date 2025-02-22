@@ -27,7 +27,7 @@ const generateCalendar = () => {
 
       // Close all accordions first
       allAccordions.forEach((unclickedAccordion) => {
-        if (unclickedAccordion !== accordion) {
+        if (unclickedAccordion != accordion) {
           unclickedAccordion.style.display = "none";
         }
       });
