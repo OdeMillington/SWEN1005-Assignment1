@@ -25,14 +25,12 @@ const generateCalendar = () => {
     dateContainer.onclick = () => {
       const allAccordions = document.querySelectorAll(".accordion");
 
-      // Close all accordions first
       allAccordions.forEach((unclickedAccordion) => {
         if (unclickedAccordion != accordion) {
           unclickedAccordion.style.display = "none";
         }
       });
 
-      // Toggle only the clicked one
       if (accordion.style.display === "none") {
         accordion.style.display = "block";
       } else {
