@@ -10,10 +10,12 @@ const generateCalendar = () => {
     dateContainer.classList.add("dateContainer");
 
     // Sets temporary date to update each date bar as the loop runs
-    let tmpDate = new Date();
+    let tmpDate = new Date(currentDate);
     tmpDate.setDate(currentDate.getDate() + i);
 
-    dateContainer.textContent = tmpDate.getDate();
+    console.log(tmpDate)
+
+    dateContainer.textContent = tmpDate.toDateString();
     calendarArea.appendChild(dateContainer)
 
   }
