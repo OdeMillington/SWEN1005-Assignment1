@@ -38,9 +38,17 @@ const generateCalendar = () => {
       }
     };
 
+    const addTaskBtn = document.createElement("button")
+    addTaskBtn.classList.add("addTaskBtn")
+    addTaskBtn.innerHTML = "Add Task";
+    addTaskBtn.addEventListener("click", () => {
+      
+    })
+
     calendarArea.appendChild(dateClass);
     dateClass.appendChild(dateContainer);
     dateClass.appendChild(accordion);
+    accordion.appendChild(addTaskBtn)
   }
 };
 

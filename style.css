@@ -22,7 +22,7 @@ body {
 
 .accordion {
     background-color: var(--date-clr-accordion);
-    padding: 20px;
+    padding: 10px 20px;
     overflow-y: scroll;
     max-height: 300px;
     border-radius: 10px;
@@ -39,6 +39,15 @@ body {
 
 .header {
     min-width: 80%;
+    position: sticky;
+    top:0
+}
+
+.addTaskBtn {
+    border-radius: 10px;
+    border:none;
+    padding: 5px;
+    font-size: 10px
 }
 
 #searchTask {
