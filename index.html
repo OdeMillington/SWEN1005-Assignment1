@@ -9,6 +9,50 @@
 </head>
 <body>
 
+    <div class="inputTaskBox">
+        <p>Input Task</p>
+        
+        <div class="formContainer">
+            <div>
+                <label for="taskTitle">Task Title</label>
+                <input type="text" name="taskTitle" id="taskTitle">
+            </div>
+
+            <div>
+                <label for="dueDate">Due Date</label>
+                <input type="date" name="dueDate" id="dueDate">
+            </div>
+
+            <div>
+                <label for="priority">Priority Level</label>
+                <select name="priority" id="priority">
+                    <option value="1">Critical</option>
+                    <option value="2">Urgent</option>
+                    <option value="3">High Priority</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="status">Status</label>
+                <select name="status" id="status">
+                    <option value="pending">Pending</option>
+                    <option value="in-progress">In-Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="taskTitle">Task Description</label>
+                <textarea name="taskDescription" id="taskDescription"></textarea>
+            </div>
+
+
+        </div>
+
+        <button>Add</button>
+        <button>Close</button>
+    </div>
+
     <div class="container">
 
 
