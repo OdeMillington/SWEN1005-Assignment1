@@ -88,7 +88,7 @@ body {
     min-width: 300px;
 }
 
-.inputTaskBox p {
+#titleInput {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -110,12 +110,10 @@ body {
     font-weight: bold;
 }
 
-.formContainer input,
-.formContainer select,
-.formContainer textarea {
+.formContainer input, .formContainer select, .formContainer textarea {
     padding: 10px;
     border: 1px solid grey;
-    border-radius: 5px;
+    border-radius: 6px;
     font-size: 14px;
 }
 
@@ -136,4 +134,8 @@ body {
     font-size: 16px;
     padding: 10px;
     margin-top: 10px;
+}
+
+.inputTaskBox button:hover {
+    background-color: var(--date-clr);
 }

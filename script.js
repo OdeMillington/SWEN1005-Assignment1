@@ -2,6 +2,13 @@ rightBtn = document.querySelector("#moveRight");
 leftBtn = document.querySelector("#moveLeft");
 
 const calendarArea = document.querySelector(".calendarArea");
+const inputTaskBox = document.querySelector(".inputTaskBox")
+
+// CloseBtn for add task popup
+const closeBtn = document.querySelector("#closeBtn")
+closeBtn.addEventListener("click", () => {
+  inputTaskBox.style.display = "none"
+})
 
 currentDate = new Date();
 
@@ -42,7 +49,11 @@ const generateCalendar = () => {
     addTaskBtn.classList.add("addTaskBtn")
     addTaskBtn.innerHTML = "Add Task";
     addTaskBtn.addEventListener("click", () => {
-      
+      if (inputTaskBox.style.display == "none") {
+        inputTaskBox.style.display = "block";
+      } else {
+        inputTaskBox.style.display = "none";
+      }
     })
 
     calendarArea.appendChild(dateClass);
