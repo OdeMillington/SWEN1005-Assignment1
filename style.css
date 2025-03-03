@@ -139,3 +139,46 @@ body {
 .inputTaskBox button:hover {
     background-color: var(--date-clr);
 }
+
+.taskItem {
+    margin-top: 5px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px
+}
+
+.priorityBuble {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.addTaskBtn {
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    width: 100%;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+.addTaskBtn:hover {
+    background-color: var(--date-clr);
+}
+
+.accordionToggled {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+
+}
+
+.accordionToggledDate {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}

@@ -15,18 +15,18 @@
         <div class="formContainer">
             <div>
                 <label for="taskTitle">Task Title</label>
-                <input type="text" name="taskTitle" id="taskTitle">
+                <input type="text" name="taskTitle" id="taskTitle" required>
             </div>
 
             <div>
                 <label for="dueDate">Due Date</label>
                 <!-- TODO: Set due date to current date+1 -->
-                <input type="date" name="dueDate" id="dueDate">
+                <input type="date" name="dueDate" id="dueDate" required>
             </div>
 
             <div>
                 <label for="priority">Priority Level</label>
-                <select name="priority" id="priority">
+                <select name="priority" id="priority" required>
                     <option value="1">Critical</option>
                     <option value="2">Urgent</option>
                     <option value="3">High Priority</option>
@@ -35,7 +35,7 @@
 
             <div>
                 <label for="status">Status</label>
-                <select name="status" id="status">
+                <select name="status" id="status" required>
                     <option value="pending">Pending</option>
                     <option value="in-progress">In-Progress</option>
                     <option value="completed">Completed</option>
@@ -44,7 +44,7 @@
 
             <div>
                 <label for="taskTitle">Task Description</label>
-                <textarea name="taskDescription" id="taskDescription"></textarea>
+                <textarea name="taskDescription" id="taskDescription" required></textarea>
             </div>
 
 
