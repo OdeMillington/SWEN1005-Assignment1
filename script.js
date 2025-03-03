@@ -93,7 +93,8 @@ const generateCalendar = () => {
             dueDate: tasks[fmtDate].dueDate[index],
             priority: tasks[fmtDate].priority[index],
             status: tasks[fmtDate].status[index],
-            setDate: fmtDate
+            setDate: fmtDate,
+            index: index
           };
 
           localStorage.setItem("selectedTask", JSON.stringify(selectedTask));
@@ -180,20 +181,21 @@ addTask.addEventListener("click", () => {
   tempTaskList.appendChild(taskItem);
   taskItem.appendChild(priorityBuble);
 
-  taskItem.addEventListener("click", () => {
-    selectedTask = {
-      title: taskTitleValue,
-      description: taskDescriptionValue,
-      dueDate: dueDateValue,
-      priority: priorityValue,
-      status: statusValue,
-      setDate: tempDate
-    };
+  location.reload();
+  // taskItem.addEventListener("click", () => {
+  //   selectedTask = {
+  //     title: taskTitleValue,
+  //     description: taskDescriptionValue,
+  //     dueDate: dueDateValue,
+  //     priority: priorityValue,
+  //     status: statusValue,
+  //     setDate: tempDate
+  //   };
 
-    localStorage.setItem("selectedTask", JSON.stringify(selectedTask));
-    window.location.href = "./taskDetails.html"
+  //   localStorage.setItem("selectedTask", JSON.stringify(selectedTask));
+  //   window.location.href = "./taskDetails.html"
     
-  });
+  // });
 
   inputTaskBox.style.display = "none";
 });

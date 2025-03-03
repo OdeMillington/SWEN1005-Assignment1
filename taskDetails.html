@@ -8,6 +8,53 @@
     <title>Task Details</title>
   </head>
   <body>
+    <div class="inputTaskBox" style="display: none">
+      <p id="titleInput">Edit Task</p>
+
+      <div class="formContainer">
+        <div>
+          <label for="taskTitle">Task Title</label>
+          <input type="text" name="taskTitle" id="taskTitle" required />
+        </div>
+
+        <div>
+          <label for="dueDate">Due Date</label>
+          <!-- TODO: Set due date to current date+1 -->
+          <input type="date" name="dueDate" id="dueDate" required />
+        </div>
+
+        <div>
+          <label for="priority">Priority Level</label>
+          <select name="priority" id="priority" required>
+            <option value="1">Critical</option>
+            <option value="2">Urgent</option>
+            <option value="3">High Priority</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="status">Status</label>
+          <select name="status" id="status" required>
+            <option value="Pending">Pending</option>
+            <option value="In-progress">In-Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="taskTitle">Task Description</label>
+          <textarea
+            name="taskDescription"
+            id="taskDescription"
+            required
+          ></textarea>
+        </div>
+      </div>
+
+      <button id="addTask">Add</button>
+      <button id="closeBtn">Close</button>
+    </div>
+
     <div class="containerTask">
       <div class="taskDetailsContainer">
         <div class="taskDetails">
@@ -21,9 +68,10 @@
           <p><strong>Status:</strong> <span id="task-status"></span></p>
 
           <div class="navButtons">
-            <button>Previous Task</button>
-            <button>Next Task</button>
+            <button class="prevBtn">Previous Task</button>
+            <button class="nextBtn">Next Task</button>
           </div>
+          <button class="editTaskBtn">Edit Task</button>
           <button id="returnHomeBtn">Return to Calendar View</button>
         </div>
       </div>
