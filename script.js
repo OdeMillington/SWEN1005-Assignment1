@@ -5,7 +5,13 @@ const calendarArea = document.querySelector(".calendarArea");
 const inputTaskBox = document.querySelector(".inputTaskBox");
 const addTask = document.querySelector("#addTask");
 
-tasks = {};
+tasks = JSON.parse(localStorage.getItem("tasks"))
+
+// Fixed error if localsoorage was empty
+if (tasks == null) {
+  tasks = {}
+}
+
 tempDate = "";
 tempTaskList = [];
 
@@ -13,11 +19,10 @@ const formatDate = (date) => {
   day = String(date.getDate()).padStart(2, "0");
   month = String(date.getMonth() + 1).padStart(2, "0");
   year = String(date.getFullYear()).slice(-2);
-
   return `${day}${month}${year}`;
 };
 
-// CloseBtn for add task popup
+// Close button for add task popup
 const closeBtn = document.querySelector("#closeBtn");
 closeBtn.addEventListener("click", () => {
   inputTaskBox.style.display = "none";
@@ -44,21 +49,10 @@ const generateCalendar = () => {
     let fmtDate = formatDate(tmpDate);
 
     const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
     ];
     let monthName = monthNames[tmpDate.getMonth()];
-
     dateContainer.textContent = `${monthName} ${tmpDate.getDate()}, ${tmpDate.getFullYear()}`;
 
     if (tasks[fmtDate]) {
@@ -93,12 +87,12 @@ const generateCalendar = () => {
 
       if (accordion.style.display === "none") {
         accordion.style.display = "block";
-        accordion.classList.add("accordionToggled")
-        dateContainer.classList.add("accordionToggledDate")
+        accordion.classList.add("accordionToggled");
+        dateContainer.classList.add("accordionToggledDate");
       } else {
         accordion.style.display = "none";
-        accordion.classList.remove("accordionToggled")
-        dateContainer.classList.remove("accordionToggledDate")
+        accordion.classList.remove("accordionToggled");
+        dateContainer.classList.remove("accordionToggledDate");
       }
     };
 
@@ -132,7 +126,7 @@ addTask.addEventListener("click", () => {
       taskDescription: [],
       priority: [],
       dueDate: [],
-      status: [],
+      status: []
     };
   }
 
@@ -141,6 +135,8 @@ addTask.addEventListener("click", () => {
   tasks[tempDate].priority.push(priorityValue);
   tasks[tempDate].dueDate.push(dueDateValue);
   tasks[tempDate].status.push(statusValue);
+
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 
   const taskItem = document.createElement("div");
   taskItem.classList.add("taskItem");
@@ -159,6 +155,7 @@ addTask.addEventListener("click", () => {
   tempTaskList.appendChild(taskItem);
   taskItem.appendChild(priorityBuble);
 
+  inputTaskBox.style.display = "none"; // Close input box after adding
 });
 
 leftBtn.addEventListener("click", () => {
