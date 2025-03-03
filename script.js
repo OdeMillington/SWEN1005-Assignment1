@@ -5,11 +5,12 @@ const calendarArea = document.querySelector(".calendarArea");
 const inputTaskBox = document.querySelector(".inputTaskBox");
 const addTask = document.querySelector("#addTask");
 
-tasks = JSON.parse(localStorage.getItem("tasks"))
+tasks = JSON.parse(localStorage.getItem("tasks"));
+selectedTask = {}
 
 // Fixed error if localsoorage was empty
 if (tasks == null) {
-  tasks = {}
+  tasks = {};
 }
 
 tempDate = "";
@@ -49,8 +50,18 @@ const generateCalendar = () => {
     let fmtDate = formatDate(tmpDate);
 
     const monthNames = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ];
     let monthName = monthNames[tmpDate.getMonth()];
     dateContainer.textContent = `${monthName} ${tmpDate.getDate()}, ${tmpDate.getFullYear()}`;
@@ -74,6 +85,20 @@ const generateCalendar = () => {
 
         taskItem.appendChild(priorityBuble);
         taskList.appendChild(taskItem);
+
+        taskItem.addEventListener("click", () => {
+          selectedTask = {
+            title: tasks[fmtDate].task[index],
+            description: tasks[fmtDate].taskDescription[index],
+            dueDate: tasks[fmtDate].dueDate[index],
+            priority: tasks[fmtDate].priority[index],
+            status: tasks[fmtDate].status[index],
+            setDate: fmtDate
+          };
+
+          localStorage.setItem("selectedTask", JSON.stringify(selectedTask));
+          window.location.href = "./taskDetails.html"
+        });
       });
     }
 
@@ -126,7 +151,7 @@ addTask.addEventListener("click", () => {
       taskDescription: [],
       priority: [],
       dueDate: [],
-      status: []
+      status: [],
     };
   }
 
@@ -155,7 +180,22 @@ addTask.addEventListener("click", () => {
   tempTaskList.appendChild(taskItem);
   taskItem.appendChild(priorityBuble);
 
-  inputTaskBox.style.display = "none"; // Close input box after adding
+  taskItem.addEventListener("click", () => {
+    selectedTask = {
+      title: taskTitleValue,
+      description: taskDescriptionValue,
+      dueDate: dueDateValue,
+      priority: priorityValue,
+      status: statusValue,
+      setDate: tempDate
+    };
+
+    localStorage.setItem("selectedTask", JSON.stringify(selectedTask));
+    window.location.href = "./taskDetails.html"
+    
+  });
+
+  inputTaskBox.style.display = "none";
 });
 
 leftBtn.addEventListener("click", () => {

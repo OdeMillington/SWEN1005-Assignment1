@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <script src="taskDetails.js" defer></script>
     <title>Task Details</title>
   </head>
   <body>
@@ -11,11 +12,19 @@
       <div class="taskDetailsContainer">
         <div class="taskDetails">
           <h1 class="task-title">Task Title</h1>
-          <p>Description:<span id="task-description"></span></p>
-          <p>Due Date:<span id="task-due-date"></span></p>
-          <p>Priority: <span id="task-priority"></span></p>
-          <p>Status: <span id="task-status"></span></p>
-          <button>Return to Calendar View</button>
+          <p><strong>Start Date:</strong> <span id="start-date"></span></p>
+          <p>
+            <strong>Description:</strong> <span id="task-description"></span>
+          </p>
+          <p><strong>Due Date:</strong> <span id="task-due-date"></span></p>
+          <p><strong>Priority:</strong> <span id="task-priority"></span></p>
+          <p><strong>Status:</strong> <span id="task-status"></span></p>
+
+          <div class="navButtons">
+            <button>Previous Task</button>
+            <button>Next Task</button>
+          </div>
+          <button id="returnHomeBtn">Return to Calendar View</button>
         </div>
       </div>
     </div>
