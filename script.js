@@ -38,7 +38,7 @@ const generateCalendar = () => {
     const accordion = document.createElement("div");
     const dateContainer = document.createElement("div");
     const dateClass = document.createElement("div");
-    const taskList = document.createElement("ul");
+    const taskList = document.createElement("div");
 
     dateClass.classList.add("date");
     accordion.classList.add("accordion");
@@ -129,7 +129,7 @@ const generateCalendar = () => {
     addTaskBtn.addEventListener("click", () => {
       inputTaskBox.style.display = "block";
       tempDate = fmtDate;
-      tempTaskList = taskList;
+
     });
 
     calendarArea.appendChild(dateClass);
@@ -179,7 +179,6 @@ addTask.addEventListener("click", () => {
   }
 
   taskItem.textContent = taskTitleValue;
-  tempTaskList.appendChild(taskItem);
   taskItem.appendChild(priorityBuble);
 
   location.reload();
