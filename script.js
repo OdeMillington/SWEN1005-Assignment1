@@ -148,6 +148,9 @@ addTask.addEventListener("click", () => {
   const priorityValue = document.querySelector("#priority").value;
   const statusValue = document.querySelector("#status").value;
   const taskDescriptionValue = document.querySelector("#taskDescription").value;
+  const fileUpload = document.querySelector("#fileUpload").value
+
+  console.log(fileUpload)
 
   if (!tasks[tempDate]) {
     tasks[tempDate] = {
@@ -187,7 +190,7 @@ addTask.addEventListener("click", () => {
   taskItem.textContent = taskTitleValue;
   taskItem.appendChild(priorityBuble);
 
-  location.reload();
+  // location.reload();
   inputTaskBox.style.display = "none";
 });
 
