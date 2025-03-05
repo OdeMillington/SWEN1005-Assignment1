@@ -231,3 +231,14 @@ button {
 .taskDetailsContainer button {
     margin-top: 10px;
 }
+
+ 
+.search {
+    background-color: var(--date-clr-accordion);
+    padding: 10px 20px;
+    max-height: 300px;
+    border-radius: 10px;
+    display: none;
+    margin-top: -25px;
+    overflow-y: scroll;
+}

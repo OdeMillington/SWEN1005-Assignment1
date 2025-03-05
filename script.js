@@ -6,7 +6,7 @@ const inputTaskBox = document.querySelector(".inputTaskBox");
 const addTask = document.querySelector("#addTask");
 
 tasks = JSON.parse(localStorage.getItem("tasks"));
-selectedTask = {}
+selectedTask = {};
 
 // Fixed error if localsoorage was empty
 if (tasks == null) {
@@ -95,11 +95,11 @@ const generateCalendar = () => {
             status: tasks[fmtDate].status[index],
             setDate: fmtDate,
             setDateFormat: tmpDate,
-            index: index
+            index: index,
           };
 
           localStorage.setItem("selectedTask", JSON.stringify(selectedTask));
-          window.location.href = "./taskDetails.html"
+          window.location.href = "taskDetails.html";
         });
       });
     }
@@ -183,23 +183,6 @@ addTask.addEventListener("click", () => {
   taskItem.appendChild(priorityBuble);
 
   location.reload();
- 
-
-  // taskItem.addEventListener("click", () => {
-  //   selectedTask = {
-  //     title: taskTitleValue,
-  //     description: taskDescriptionValue,
-  //     dueDate: dueDateValue,
-  //     priority: priorityValue,
-  //     status: statusValue,
-  //     setDate: tempDate
-  //   };
-
-  //   localStorage.setItem("selectedTask", JSON.stringify(selectedTask));
-  //   window.location.href = "./taskDetails.html"
-    
-  // });
-
   inputTaskBox.style.display = "none";
 });
 
@@ -219,5 +202,65 @@ const dateController = (direction) => {
   }
   generateCalendar();
 };
+
+const searchInput = document.querySelector("#searchTask");
+const searchResults = document.querySelector(".search");
+
+// Event listener for search input
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.toLowerCase();
+  searchResults.innerHTML = "";
+
+  if (query == "") {
+    searchResults.style.display = "none";
+    return;
+  }
+
+  const closeBtn = document.createElement("div");
+  closeBtn.textContent = "X";
+  closeBtn.style.color = "red";
+  closeBtn.classList.add("closeSearch");
+  closeBtn.addEventListener("click", () => {
+    searchResults.style.display = "none";
+    searchInput.value = "";
+  });
+  searchResults.append(closeBtn);
+  searchResults.style.display = "block";
+
+  for (let date in tasks) {
+    tasks[date].task.forEach((task, index) => {
+      if (task.toLowerCase().includes(query)) {
+        const resultItem = document.createElement("div");
+        resultItem.textContent = task;
+
+        // console.log(date) 040325
+
+        dateYear = "20" + date.slice(-2);
+        dateDay = date.substring(0, 2);
+        dateMonth = date.substring(2, 4);
+
+        formattedDate = new Date(dateYear, dateMonth - 1, dateDay);
+
+        resultItem.addEventListener("click", () => {
+          selectedTask = {
+            title: task,
+            description: tasks[date].taskDescription[index],
+            dueDate: tasks[date].dueDate[index],
+            priority: tasks[date].priority[index],
+            status: tasks[date].status[index],
+            setDate: date,
+            setDateFormat: formattedDate,
+            index: index,
+          };
+
+          localStorage.setItem("selectedTask", JSON.stringify(selectedTask));
+          window.location.href = "taskDetails.html";
+        });
+
+        searchResults.appendChild(resultItem);
+      }
+    });
+  }
+});
 
 generateCalendar();
