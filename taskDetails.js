@@ -48,6 +48,15 @@ tasktitle.innerHTML = taskDetails.title;
 taskdescription.innerHTML = taskDetails.description;
 taskduedate.innerHTML = taskDetails.dueDate;
 taskpriority.innerHTML = taskDetails.priority;
+
+if (taskDetails.priority == "1") {
+  taskpriority.innerHTML = "Critical"
+} else if (taskDetails.priority == "2") {
+  taskpriority.innerHTML = "Urgent"
+} else {
+  taskpriority.innerHTML = "High Priority"
+}
+
 taskstatus.innerHTML = taskDetails.status;
 startdate.innerHTML = formatDate(taskDetails.setDateFormat)
 startdateOtherFormat = formatDates(new Date(startdate.innerHTML))
@@ -152,15 +161,13 @@ const navigateTask = (amt) => {
     }
     
     date = formatDates(date)  // format for accessing
-    console.log(taskDetails)
-
 
     // work on easier way but works for now
-    taskDetails.title = tasks[date].task[0]
-    taskDetails.description = tasks[date].taskDescription[0]
-    taskDetails.dueDate = tasks[date].dueDate[0]
-    taskDetails.priority = tasks[date].priority[0]
-    taskDetails.status = tasks[date].status[0]
+    taskDetails.title = tasks[date].task[newIndex]
+    taskDetails.description = tasks[date].taskDescription[newIndex]
+    taskDetails.dueDate = tasks[date].dueDate[newIndex]
+    taskDetails.priority = tasks[date].priority[newIndex]
+    taskDetails.status = tasks[date].status[newIndex]
     taskDetails.setDate = date
     taskDetails.setDateFormat = date2
     taskDetails.index = 0
