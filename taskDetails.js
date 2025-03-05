@@ -23,7 +23,17 @@ const formatDate = (date) => {
   return newDate
 }
 
-console.log(taskDetails.setDateFormat)
+
+// Formatting to the date format to access each day
+const formatDates = (date) => {
+  day = String(date.getDate()).padStart(2, "0");
+  month = String(date.getMonth() + 1).padStart(2, "0");
+  year = String(date.getFullYear()).slice(-2);
+  return `${day}${month}${year}`;
+};
+
+
+// console.log(taskDetails.setDateFormat)
 
 const tasktitle = document.querySelector(".task-title");
 const taskdescription = document.querySelector("#task-description");
@@ -40,6 +50,7 @@ taskduedate.innerHTML = taskDetails.dueDate;
 taskpriority.innerHTML = taskDetails.priority;
 taskstatus.innerHTML = taskDetails.status;
 startdate.innerHTML = formatDate(taskDetails.setDateFormat)
+startdateOtherFormat = formatDates(new Date(startdate.innerHTML))
 index = taskDetails.index;
 
 // popup form
@@ -81,11 +92,11 @@ addTask.addEventListener("click", () => {
   const statusValue = document.querySelector("#status").value;
   const taskDescriptionValue = document.querySelector("#taskDescription").value;
 
-  tasks[startdate.innerHTML].task[index] = taskTitleValue;
-  tasks[startdate.innerHTML].dueDate[index] = dueDateValue;
-  tasks[startdate.innerHTML].priority[index] = priorityValue;
-  tasks[startdate.innerHTML].status[index] = statusValue;
-  tasks[startdate.innerHTML].taskDescription[index] = taskDescriptionValue;
+  tasks[startdateOtherFormat].task[index] = taskTitleValue;
+  tasks[startdateOtherFormat].dueDate[index] = dueDateValue;
+  tasks[startdateOtherFormat].priority[index] = priorityValue;
+  tasks[startdateOtherFormat].status[index] = statusValue;
+  tasks[startdateOtherFormat].taskDescription[index] = taskDescriptionValue;
 
   localStorage.setItem("tasks", JSON.stringify(tasks));
 
@@ -114,7 +125,7 @@ prevBtn.addEventListener("click", () => navigateTask(-1));
 nextBtn.addEventListener("click", () => navigateTask(1));
 
 const navigateTask = (amt) => {
-  const currentTasks = tasks[taskDetails.setDate].task;
+  const currentTasks = tasks[taskDetails.setDate].task; // to check later if at the end of the tasks
   newIndex = taskDetails.index + amt;
 
   if (newIndex >= 0 && newIndex < currentTasks.length) {
@@ -127,5 +138,35 @@ const navigateTask = (amt) => {
 
     localStorage.setItem("selectedTask", JSON.stringify(taskDetails));
     location.reload()
+  } else {
+    newIndex = 0
+    let date = new Date(taskDetails.setDateFormat)
+    let date2 = new Date(taskDetails.setDateFormat) // date object format
+
+    if (amt == 1) {
+      date.setDate(date.getDate() + 1)
+      date2.setDate(date2.getDate() + 1)
+    } else {
+      date.setDate(date.getDate() - 1)
+      date2.setDate(date2.getDate() - 1)
+    }
+    
+    date = formatDates(date)  // format for accessing
+    console.log(taskDetails)
+
+
+    // work on easier way but works for now
+    taskDetails.title = tasks[date].task[0]
+    taskDetails.description = tasks[date].taskDescription[0]
+    taskDetails.dueDate = tasks[date].dueDate[0]
+    taskDetails.priority = tasks[date].priority[0]
+    taskDetails.status = tasks[date].status[0]
+    taskDetails.setDate = date
+    taskDetails.setDateFormat = date2
+    taskDetails.index = 0
+
+    localStorage.setItem("selectedTask", JSON.stringify(taskDetails))
+    location.reload()
+
   }
 };
