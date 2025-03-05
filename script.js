@@ -14,7 +14,6 @@ if (tasks == null) {
 }
 
 tempDate = "";
-tempTaskList = [];
 
 const formatDate = (date) => {
   day = String(date.getDate()).padStart(2, "0");
