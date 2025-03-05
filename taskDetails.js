@@ -2,7 +2,7 @@ const taskDetails = JSON.parse(localStorage.getItem("selectedTask"));
 const tasks = JSON.parse(localStorage.getItem("tasks"));
 
 const formatDate = (date) => {
-  date = new Date(date)
+  date = new Date(date);
 
   const monthNames = [
     "January",
@@ -19,10 +19,9 @@ const formatDate = (date) => {
     "December",
   ];
   let monthName = monthNames[date.getMonth()];
-  newDate  = `${monthName} ${date.getDate()}, ${date.getFullYear()}`;
-  return newDate
-}
-
+  newDate = `${monthName} ${date.getDate()}, ${date.getFullYear()}`;
+  return newDate;
+};
 
 // Formatting to the date format to access each day
 const formatDates = (date) => {
@@ -31,7 +30,6 @@ const formatDates = (date) => {
   year = String(date.getFullYear()).slice(-2);
   return `${day}${month}${year}`;
 };
-
 
 // console.log(taskDetails.setDateFormat)
 
@@ -50,16 +48,20 @@ taskduedate.innerHTML = taskDetails.dueDate;
 taskpriority.innerHTML = taskDetails.priority;
 
 if (taskDetails.priority == "1") {
-  taskpriority.innerHTML = "Critical"
+  taskpriority.innerHTML = "Critical";
 } else if (taskDetails.priority == "2") {
-  taskpriority.innerHTML = "Urgent"
+  taskpriority.innerHTML = "Urgent";
+} else if (taskDetails.priority == "3") {
+  taskpriority.innerHTML = "High Priority";
+} else if (taskDetails.priority == "4") {
+  taskpriority.innerHTML = "Medium Priority";
 } else {
-  taskpriority.innerHTML = "High Priority"
+  taskpriority.innerHTML = "Low Priority";
 }
 
 taskstatus.innerHTML = taskDetails.status;
-startdate.innerHTML = formatDate(taskDetails.setDateFormat)
-startdateOtherFormat = formatDates(new Date(startdate.innerHTML))
+startdate.innerHTML = formatDate(taskDetails.setDateFormat);
+startdateOtherFormat = formatDates(new Date(startdate.innerHTML));
 index = taskDetails.index;
 
 // popup form
@@ -68,7 +70,6 @@ const taskDescriptionInput = document.querySelector("#taskDescription");
 const dueDateInput = document.querySelector("#dueDate");
 const priorityInput = document.querySelector("#priority");
 const statusInput = document.querySelector("#status");
-
 
 // Sets all the form to the existing info so it makes editing easier
 taskTitleInput.value = taskDetails.title;
@@ -140,40 +141,40 @@ const navigateTask = (amt) => {
   if (newIndex >= 0 && newIndex < currentTasks.length) {
     taskDetails.index = newIndex;
     taskDetails.title = tasks[taskDetails.setDate].task[newIndex];
-    taskDetails.description = tasks[taskDetails.setDate].taskDescription[newIndex];
+    taskDetails.description =
+      tasks[taskDetails.setDate].taskDescription[newIndex];
     taskDetails.dueDate = tasks[taskDetails.setDate].dueDate[newIndex];
     taskDetails.priority = tasks[taskDetails.setDate].priority[newIndex];
     taskDetails.status = tasks[taskDetails.setDate].status[newIndex];
 
     localStorage.setItem("selectedTask", JSON.stringify(taskDetails));
-    location.reload()
+    location.reload();
   } else {
-    newIndex = 0
-    let date = new Date(taskDetails.setDateFormat)
-    let date2 = new Date(taskDetails.setDateFormat) // date object format
+    newIndex = 0;
+    let date = new Date(taskDetails.setDateFormat);
+    let date2 = new Date(taskDetails.setDateFormat); // date object format
 
     if (amt == 1) {
-      date.setDate(date.getDate() + 1)
-      date2.setDate(date2.getDate() + 1)
+      date.setDate(date.getDate() + 1);
+      date2.setDate(date2.getDate() + 1);
     } else {
-      date.setDate(date.getDate() - 1)
-      date2.setDate(date2.getDate() - 1)
+      date.setDate(date.getDate() - 1);
+      date2.setDate(date2.getDate() - 1);
     }
-    
-    date = formatDates(date)  // format for accessing
+
+    date = formatDates(date); // format for accessing
 
     // work on easier way but works for now
-    taskDetails.title = tasks[date].task[newIndex]
-    taskDetails.description = tasks[date].taskDescription[newIndex]
-    taskDetails.dueDate = tasks[date].dueDate[newIndex]
-    taskDetails.priority = tasks[date].priority[newIndex]
-    taskDetails.status = tasks[date].status[newIndex]
-    taskDetails.setDate = date
-    taskDetails.setDateFormat = date2
-    taskDetails.index = 0
+    taskDetails.title = tasks[date].task[newIndex];
+    taskDetails.description = tasks[date].taskDescription[newIndex];
+    taskDetails.dueDate = tasks[date].dueDate[newIndex];
+    taskDetails.priority = tasks[date].priority[newIndex];
+    taskDetails.status = tasks[date].status[newIndex];
+    taskDetails.setDate = date;
+    taskDetails.setDateFormat = date2;
+    taskDetails.index = 0;
 
-    localStorage.setItem("selectedTask", JSON.stringify(taskDetails))
-    location.reload()
-
+    localStorage.setItem("selectedTask", JSON.stringify(taskDetails));
+    location.reload();
   }
 };

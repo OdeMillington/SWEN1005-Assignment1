@@ -79,8 +79,12 @@ const generateCalendar = () => {
           priorityBuble.style.backgroundColor = "#E63946";
         } else if (tasks[fmtDate].priority[index] == "2") {
           priorityBuble.style.backgroundColor = "orange";
-        } else {
+        } else if (tasks[fmtDate].priority[index] == "3") {
           priorityBuble.style.backgroundColor = "#008080";
+        } else if (tasks[fmtDate].priority[index] == "4") {
+          priorityBuble.style.backgroundColor = "#6A0DAD";
+        } else {
+          priorityBuble.style.backgroundColor = "grey";
         }
 
         taskItem.appendChild(priorityBuble);
@@ -129,7 +133,6 @@ const generateCalendar = () => {
     addTaskBtn.addEventListener("click", () => {
       inputTaskBox.style.display = "block";
       tempDate = fmtDate;
-
     });
 
     calendarArea.appendChild(dateClass);
@@ -174,8 +177,12 @@ addTask.addEventListener("click", () => {
     priorityBuble.style.backgroundColor = "#E63946";
   } else if (priorityValue == "2") {
     priorityBuble.style.backgroundColor = "orange";
-  } else {
+  } else if (priorityValue == "3") {
     priorityBuble.style.backgroundColor = "#008080";
+  } else if (priorityValue == "4") {
+    priorityBuble.style.backgroundColor = "#6A0DAD";
+  } else {
+    priorityBuble.style.backgroundColor = "grey";
   }
 
   taskItem.textContent = taskTitleValue;

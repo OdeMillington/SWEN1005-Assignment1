@@ -1,77 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
     <title>O's Event Calendar</title>
-</head>
-<body>
+  </head>
+  <body>
+    <div class="inputTaskBox" style="display: none">
+      <p id="titleInput">Input Task</p>
 
-    <div class="inputTaskBox" style="display: none;">
-        <p id="titleInput">Input Task</p>
-        
-        <div class="formContainer">
-            <div>
-                <label for="taskTitle">Task Title</label>
-                <input type="text" name="taskTitle" id="taskTitle" required>
-            </div>
-
-            <div>
-                <label for="dueDate">Due Date</label>
-                <!-- TODO: Set due date to current date+1 -->
-                <input type="date" name="dueDate" id="dueDate" required>
-            </div>
-
-            <div>
-                <label for="priority">Priority Level</label>
-                <select name="priority" id="priority" required>
-                    <option value="1">Critical</option>
-                    <option value="2">Urgent</option>
-                    <option value="3">High Priority</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="status">Status</label>
-                <select name="status" id="status" required>
-                    <option value="Pending">Pending</option>
-                    <option value="In-progress">In-Progress</option>
-                    <option value="Completed">Completed</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="taskTitle">Task Description</label>
-                <textarea name="taskDescription" id="taskDescription" required></textarea>
-            </div>
-
-
+      <div class="formContainer">
+        <div>
+          <label for="taskTitle">Task Title</label>
+          <input type="text" name="taskTitle" id="taskTitle" required />
         </div>
 
-        <button id="addTask">Add</button>
-        <button id="closeBtn">Close</button>
+        <div>
+          <label for="dueDate">Due Date</label>
+          <!-- TODO: Set due date to current date+1 -->
+          <input type="date" name="dueDate" id="dueDate" required />
+        </div>
+
+        <div>
+          <label for="priority">Priority Level</label>
+          <select name="priority" id="priority" required>
+            <option value="1">Critical</option>
+            <option value="2">Urgent</option>
+            <option value="3">High Priority</option>
+            <option value="4">Medium Priority</option>
+            <option value="5">Low Priority</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="status">Status</label>
+          <select name="status" id="status" required>
+            <option value="Pending">Pending</option>
+            <option value="In-progress">In-Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="taskTitle">Task Description</label>
+          <textarea
+            name="taskDescription"
+            id="taskDescription"
+            required
+          ></textarea>
+        </div>
+      </div>
+
+      <button id="addTask">Add</button>
+      <button id="closeBtn">Close</button>
     </div>
 
     <div class="container">
+      <div class="header">
+        <input
+          type="text"
+          name="searchTask"
+          id="searchTask"
+          placeholder="Search Task"
+          autocomplete="off"
+        />
+      </div>
 
+      <div class="search taskItem"></div>
 
-        <div class="header">
-            <input type="text" name="searchTask" id="searchTask" placeholder="Search Task" autocomplete="off">  
-        </div>
+      <div class="calendarArea">
+        <!-- Will be filled dynamically with JS -->
+      </div>
 
-        <div class="search taskItem">
-            
-        </div>
-
-        <div class="calendarArea">
-            <!-- Will be filled dynamically with JS -->
-        </div>
-
-        <button type="button" id="moveLeft">LEFT</button>
-        <button type="button" id="moveRight">RIGHT</button>
-
+      <button type="button" id="moveLeft">LEFT</button>
+      <button type="button" id="moveRight">RIGHT</button>
     </div>
-</body>
+  </body>
 </html>
