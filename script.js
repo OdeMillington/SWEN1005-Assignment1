@@ -94,6 +94,7 @@ const generateCalendar = () => {
             priority: tasks[fmtDate].priority[index],
             status: tasks[fmtDate].status[index],
             setDate: fmtDate,
+            setDateFormat: tmpDate,
             index: index
           };
 
@@ -182,6 +183,8 @@ addTask.addEventListener("click", () => {
   taskItem.appendChild(priorityBuble);
 
   location.reload();
+ 
+
   // taskItem.addEventListener("click", () => {
   //   selectedTask = {
   //     title: taskTitleValue,

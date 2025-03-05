@@ -1,6 +1,30 @@
 const taskDetails = JSON.parse(localStorage.getItem("selectedTask"));
 const tasks = JSON.parse(localStorage.getItem("tasks"));
 
+const formatDate = (date) => {
+  date = new Date(date)
+
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  let monthName = monthNames[date.getMonth()];
+  newDate  = `${monthName} ${date.getDate()}, ${date.getFullYear()}`;
+  return newDate
+}
+
+console.log(taskDetails.setDateFormat)
+
 const tasktitle = document.querySelector(".task-title");
 const taskdescription = document.querySelector("#task-description");
 const taskduedate = document.querySelector("#task-due-date");
@@ -10,6 +34,14 @@ const startdate = document.querySelector("#start-date");
 const editTaskBtn = document.querySelector(".editTaskBtn");
 const inputTaskBox = document.querySelector(".inputTaskBox");
 
+tasktitle.innerHTML = taskDetails.title;
+taskdescription.innerHTML = taskDetails.description;
+taskduedate.innerHTML = taskDetails.dueDate;
+taskpriority.innerHTML = taskDetails.priority;
+taskstatus.innerHTML = taskDetails.status;
+startdate.innerHTML = formatDate(taskDetails.setDateFormat)
+index = taskDetails.index;
+
 // popup form
 const taskTitleInput = document.querySelector("#taskTitle");
 const taskDescriptionInput = document.querySelector("#taskDescription");
@@ -17,13 +49,6 @@ const dueDateInput = document.querySelector("#dueDate");
 const priorityInput = document.querySelector("#priority");
 const statusInput = document.querySelector("#status");
 
-tasktitle.innerHTML = taskDetails.title;
-taskdescription.innerHTML = taskDetails.description;
-taskduedate.innerHTML = taskDetails.dueDate;
-taskpriority.innerHTML = taskDetails.priority;
-taskstatus.innerHTML = taskDetails.status;
-startdate.innerHTML = taskDetails.setDate;
-index = taskDetails.index;
 
 // Sets all the form to the existing info so it makes editing easier
 taskTitleInput.value = taskDetails.title;
@@ -78,6 +103,29 @@ addTask.addEventListener("click", () => {
   taskpriority.innerHTML = priorityValue;
   taskstatus.innerHTML = statusValue;
 
-  inputTaskBox.style.display = "none"
-
+  inputTaskBox.style.display = "none";
 });
+
+// TODO: Find way to make it go across differnet days
+const prevBtn = document.querySelector(".prevBtn");
+const nextBtn = document.querySelector(".nextBtn");
+
+prevBtn.addEventListener("click", () => navigateTask(-1));
+nextBtn.addEventListener("click", () => navigateTask(1));
+
+const navigateTask = (amt) => {
+  const currentTasks = tasks[taskDetails.setDate].task;
+  newIndex = taskDetails.index + amt;
+
+  if (newIndex >= 0 && newIndex < currentTasks.length) {
+    taskDetails.index = newIndex;
+    taskDetails.title = tasks[taskDetails.setDate].task[newIndex];
+    taskDetails.description = tasks[taskDetails.setDate].taskDescription[newIndex];
+    taskDetails.dueDate = tasks[taskDetails.setDate].dueDate[newIndex];
+    taskDetails.priority = tasks[taskDetails.setDate].priority[newIndex];
+    taskDetails.status = tasks[taskDetails.setDate].status[newIndex];
+
+    localStorage.setItem("selectedTask", JSON.stringify(taskDetails));
+    location.reload()
+  }
+};
