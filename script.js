@@ -148,9 +148,6 @@ addTask.addEventListener("click", () => {
   const priorityValue = document.querySelector("#priority").value;
   const statusValue = document.querySelector("#status").value;
   const taskDescriptionValue = document.querySelector("#taskDescription").value;
-  const fileUpload = document.querySelector("#fileUpload").value
-
-  console.log(fileUpload)
 
   if (!tasks[tempDate]) {
     tasks[tempDate] = {
@@ -170,27 +167,7 @@ addTask.addEventListener("click", () => {
 
   localStorage.setItem("tasks", JSON.stringify(tasks));
 
-  const taskItem = document.createElement("div");
-  taskItem.classList.add("taskItem");
-  const priorityBuble = document.createElement("div");
-  priorityBuble.classList.add("priorityBuble");
-
-  if (priorityValue == "1") {
-    priorityBuble.style.backgroundColor = "#E63946";
-  } else if (priorityValue == "2") {
-    priorityBuble.style.backgroundColor = "orange";
-  } else if (priorityValue == "3") {
-    priorityBuble.style.backgroundColor = "#008080";
-  } else if (priorityValue == "4") {
-    priorityBuble.style.backgroundColor = "#6A0DAD";
-  } else {
-    priorityBuble.style.backgroundColor = "grey";
-  }
-
-  taskItem.textContent = taskTitleValue;
-  taskItem.appendChild(priorityBuble);
-
-  // location.reload();
+  location.reload();
   inputTaskBox.style.display = "none";
 });
 
