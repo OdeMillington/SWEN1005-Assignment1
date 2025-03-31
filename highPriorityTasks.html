@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
-    <title>O's Event Calendar</title>
+    <script src="taskDetails.js" defer></script>
+    <title>Upcoming Priority Tasks</title>
   </head>
   <body>
     <div class="inputTaskBox" style="display: none">
-      <p id="titleInput">Input Task</p>
+      <p id="titleInput">Edit Task</p>
 
       <div class="formContainer">
         <div>
@@ -53,28 +53,29 @@
         </div>
       </div>
 
-      <!-- Source: MDN -->
-      <input type="file" name="fileUpload" id="fileUpload" accept="image/*,application/pdf,video/*,audio/*">
-
-      <button id="addTask">Add</button>
+      <button id="addTask">Confirm</button>
       <button id="closeBtn">Close</button>
     </div>
 
-    <div class="container">
-      <div class="header">
-        <input
-          type="text"
-          name="searchTask"
-          id="searchTask"
-          placeholder="Search Task"
-          autocomplete="off"
-        />
-      </div>
+    <div class="containerTask">
+      <div class="taskDetailsContainer">
+        <div class="taskDetails">
+          <h1 class="task-title">Task Title</h1>
+          <p><strong>Start Date:</strong> <span id="start-date"></span></p>
+          <p>
+            <strong>Description:</strong> <span id="task-description"></span>
+          </p>
+          <p><strong>Due Date:</strong> <span id="task-due-date"></span></p>
+          <p><strong>Priority:</strong> <span id="task-priority"></span></p>
+          <p><strong>Status:</strong> <span id="task-status"></span></p>
 
-      <div class="search taskItem"></div>
-
-      <div class="calendarArea">
-        <!-- Will be filled dynamically with JS -->
+          <div class="navButtons">
+            <button class="prevBtn">Previous Task</button>
+            <button class="nextBtn">Next Task</button>
+          </div>
+          <button class="editTaskBtn">Edit Task</button>
+          <button id="returnHomeBtn">Return to Calendar View</button>
+        </div>
       </div>
     </div>
   </body>

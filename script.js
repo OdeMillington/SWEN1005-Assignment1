@@ -4,6 +4,7 @@ leftBtn = document.querySelector("#moveLeft");
 const calendarArea = document.querySelector(".calendarArea");
 const inputTaskBox = document.querySelector(".inputTaskBox");
 const addTask = document.querySelector("#addTask");
+const container = document.querySelector('.container');
 
 tasks = JSON.parse(localStorage.getItem("tasks"));
 selectedTask = {};
@@ -20,6 +21,7 @@ const formatDate = (date) => {
   month = String(date.getMonth() + 1).padStart(2, "0");
   year = String(date.getFullYear()).slice(-2);
   return `${day}${month}${year}`;
+  
 };
 
 // Close button for add task popup
@@ -171,16 +173,83 @@ addTask.addEventListener("click", () => {
   inputTaskBox.style.display = "none";
 });
 
-leftBtn.addEventListener("click", () => {
-  dateController("left");
+
+let startX = 0
+let startY = 0
+
+container.addEventListener('touchstart', (e) => {
+  startX = e.touches[0].clientX
+  startY = e.touches[0].clientY
 });
 
-rightBtn.addEventListener("click", () => {
-  dateController("right");
+container.addEventListener('touchend', (e) => {
+  const endX = e.changedTouches[0].clientX
+  const endY = e.changedTouches[0].clientY
+  const diffX = endX - startX;           
+  const diffY = endY - startY;           
+  const minMove = 50;
+
+  // Check if horizontal swipe
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    const tasks = JSON.parse(localStorage.getItem("tasks"));
+    if (Math.abs(diffX) > minMove) {
+      if (diffX > 0) {
+        console.log("Swiped left - Showing Completed Tasks");
+        // Handle right swipe action here
+        // window.location.href = "completedTasks.html";
+
+        
+      } else {
+        console.log("Swiped right - Showing High Priority Tasks");
+        upcomingHighPriorityTasks = {};
+
+        for (let date in tasks) {
+          tasks[date].task.forEach((task, index) => {
+            const dueDate = new Date(tasks[date].dueDate[index]);
+
+            if (tasks[date].priority[index] === "3" && dueDate > currentDate) {
+              if (!upcomingHighPriorityTasks[date]) {
+                upcomingHighPriorityTasks[date] = {
+                  task: [],
+                  taskDescription: [],
+                  priority: [],
+                  dueDate: [],
+                  status: [],
+                  setDate: [],
+                };
+              }
+
+              upcomingHighPriorityTasks[date].task.push(task);
+              upcomingHighPriorityTasks[date].taskDescription.push(tasks[date].taskDescription[index]);
+              upcomingHighPriorityTasks[date].priority.push(tasks[date].priority[index]);
+              upcomingHighPriorityTasks[date].dueDate.push(tasks[date].dueDate[index]);
+              upcomingHighPriorityTasks[date].status.push(tasks[date].status[index]);
+              upcomingHighPriorityTasks[date].setDate.push(date);
+            }
+          });
+        }
+
+        localStorage.setItem("upcomingHighPriorityTasks", JSON.stringify(upcomingHighPriorityTasks));
+        window.location.href = "highPriorityTasks.html"
+      }
+    }
+  }
+
+  else {
+    if (Math.abs(diffY) > minMove) {
+      if (diffY > 0) {
+        dateController('up');
+      } else {
+        dateController('down');
+      }
+    }
+  }
+;
 });
+
 
 const dateController = (direction) => {
-  if (direction == "left") {
+  if (direction == "up") {
     currentDate.setDate(currentDate.getDate() - 7);
   } else {
     currentDate.setDate(currentDate.getDate() + 7);
