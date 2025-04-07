@@ -44,7 +44,7 @@ const inputTaskBox = document.querySelector(".inputTaskBox");
 
 tasktitle.innerHTML = taskDetails.title;
 taskdescription.innerHTML = taskDetails.description;
-taskduedate.innerHTML = taskDetails.dueDate;
+taskduedate.innerHTML = formatDate(taskDetails.dueDate);
 taskpriority.innerHTML = taskDetails.priority;
 
 const taskcompletion = document.querySelector("#task-completion-date");

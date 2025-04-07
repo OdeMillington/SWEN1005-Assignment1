@@ -92,24 +92,18 @@ const generateCalendar = () => {
         const priorityBuble = document.createElement("div");
         priorityBuble.classList.add("priorityBuble");
 
-        // Check if the task is overdue
-        const dueDate = new Date(tasks[fmtDate].dueDate[index]);
-        if (
-          dueDate < currentDate &&
-          tasks[fmtDate].status[index] !== "Completed"
-        )
-          if (tasks[fmtDate].priority[index] == "1") {
-            // Set task bubble color based on priority
-            priorityBuble.style.backgroundColor = "#E63946";
-          } else if (tasks[fmtDate].priority[index] == "2") {
-            priorityBuble.style.backgroundColor = "orange";
-          } else if (tasks[fmtDate].priority[index] == "3") {
-            priorityBuble.style.backgroundColor = "#008080";
-          } else if (tasks[fmtDate].priority[index] == "4") {
-            priorityBuble.style.backgroundColor = "#6A0DAD";
-          } else {
-            priorityBuble.style.backgroundColor = "grey";
-          }
+        if (tasks[fmtDate].priority[index] == "1") {
+          // Set task bubble color based on priority
+          priorityBuble.style.backgroundColor = "#E63946";
+        } else if (tasks[fmtDate].priority[index] == "2") {
+          priorityBuble.style.backgroundColor = "orange";
+        } else if (tasks[fmtDate].priority[index] == "3") {
+          priorityBuble.style.backgroundColor = "#008080";
+        } else if (tasks[fmtDate].priority[index] == "4") {
+          priorityBuble.style.backgroundColor = "#6A0DAD";
+        } else {
+          priorityBuble.style.backgroundColor = "grey";
+        }
 
         taskItem.appendChild(priorityBuble);
         taskList.appendChild(taskItem);
