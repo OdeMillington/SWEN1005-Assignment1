@@ -47,6 +47,9 @@ taskdescription.innerHTML = taskDetails.description;
 taskduedate.innerHTML = taskDetails.dueDate;
 taskpriority.innerHTML = taskDetails.priority;
 
+const taskcompletion = document.querySelector("#task-completion-date");
+const completionDate = taskDetails.completionDate;
+
 if (taskDetails.priority == "1") {
   taskpriority.innerHTML = "Critical";
 } else if (taskDetails.priority == "2") {
@@ -141,8 +144,7 @@ const navigateTask = (amt) => {
   if (newIndex >= 0 && newIndex < currentTasks.length) {
     taskDetails.index = newIndex;
     taskDetails.title = tasks[taskDetails.setDate].task[newIndex];
-    taskDetails.description =
-      tasks[taskDetails.setDate].taskDescription[newIndex];
+    taskDetails.description = tasks[taskDetails.setDate].taskDescription[newIndex];
     taskDetails.dueDate = tasks[taskDetails.setDate].dueDate[newIndex];
     taskDetails.priority = tasks[taskDetails.setDate].priority[newIndex];
     taskDetails.status = tasks[taskDetails.setDate].status[newIndex];

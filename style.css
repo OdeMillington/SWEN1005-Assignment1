@@ -258,3 +258,11 @@ button {
 .closeSearch {
     font-size: 30px
 }
+
+.overdueDay {
+    background-color: #FF6B6B !important;
+    color: white;
+    font-weight: bold;
+  }
+
+  

@@ -4,7 +4,7 @@ leftBtn = document.querySelector("#moveLeft");
 const calendarArea = document.querySelector(".calendarArea");
 const inputTaskBox = document.querySelector(".inputTaskBox");
 const addTask = document.querySelector("#addTask");
-const container = document.querySelector('.container');
+const container = document.querySelector(".container");
 
 tasks = JSON.parse(localStorage.getItem("tasks"));
 selectedTask = {};
@@ -21,7 +21,6 @@ const formatDate = (date) => {
   month = String(date.getMonth() + 1).padStart(2, "0");
   year = String(date.getFullYear()).slice(-2);
   return `${day}${month}${year}`;
-  
 };
 
 // Close button for add task popup
@@ -67,6 +66,23 @@ const generateCalendar = () => {
     let monthName = monthNames[tmpDate.getMonth()];
     dateContainer.textContent = `${monthName} ${tmpDate.getDate()}, ${tmpDate.getFullYear()}`;
 
+    let hasOverdueTask = false;
+    const today = new Date();
+
+    if (tasks[fmtDate]) {
+      tasks[fmtDate].task.forEach((task, index) => {
+        const dueDate = new Date(tasks[fmtDate].dueDate[index]);
+
+        if (dueDate < today && tasks[fmtDate].status[index] !== "Completed") {
+          hasOverdueTask = true;
+        }
+      });
+    }
+
+    if (hasOverdueTask) {
+      dateContainer.classList.add("overdueDay");
+    }
+
     if (tasks[fmtDate]) {
       tasks[fmtDate].task.forEach((task, index) => {
         const taskItem = document.createElement("div");
@@ -76,17 +92,24 @@ const generateCalendar = () => {
         const priorityBuble = document.createElement("div");
         priorityBuble.classList.add("priorityBuble");
 
-        if (tasks[fmtDate].priority[index] == "1") {
-          priorityBuble.style.backgroundColor = "#E63946";
-        } else if (tasks[fmtDate].priority[index] == "2") {
-          priorityBuble.style.backgroundColor = "orange";
-        } else if (tasks[fmtDate].priority[index] == "3") {
-          priorityBuble.style.backgroundColor = "#008080";
-        } else if (tasks[fmtDate].priority[index] == "4") {
-          priorityBuble.style.backgroundColor = "#6A0DAD";
-        } else {
-          priorityBuble.style.backgroundColor = "grey";
-        }
+        // Check if the task is overdue
+        const dueDate = new Date(tasks[fmtDate].dueDate[index]);
+        if (
+          dueDate < currentDate &&
+          tasks[fmtDate].status[index] !== "Completed"
+        )
+          if (tasks[fmtDate].priority[index] == "1") {
+            // Set task bubble color based on priority
+            priorityBuble.style.backgroundColor = "#E63946";
+          } else if (tasks[fmtDate].priority[index] == "2") {
+            priorityBuble.style.backgroundColor = "orange";
+          } else if (tasks[fmtDate].priority[index] == "3") {
+            priorityBuble.style.backgroundColor = "#008080";
+          } else if (tasks[fmtDate].priority[index] == "4") {
+            priorityBuble.style.backgroundColor = "#6A0DAD";
+          } else {
+            priorityBuble.style.backgroundColor = "grey";
+          }
 
         taskItem.appendChild(priorityBuble);
         taskList.appendChild(taskItem);
@@ -166,39 +189,62 @@ addTask.addEventListener("click", () => {
   tasks[tempDate].priority.push(priorityValue);
   tasks[tempDate].dueDate.push(dueDateValue);
   tasks[tempDate].status.push(statusValue);
-
   localStorage.setItem("tasks", JSON.stringify(tasks));
 
   location.reload();
   inputTaskBox.style.display = "none";
 });
 
+// Source for Swipe functionality: https://www.youtube.com/watch?v=vChlyMwp4ek
+let startX = 0;
+let startY = 0;
 
-let startX = 0
-let startY = 0
-
-container.addEventListener('touchstart', (e) => {
-  startX = e.touches[0].clientX
-  startY = e.touches[0].clientY
+container.addEventListener("touchstart", (e) => {
+  startX = e.touches[0].clientX;
+  startY = e.touches[0].clientY;
 });
 
-container.addEventListener('touchend', (e) => {
-  const endX = e.changedTouches[0].clientX
-  const endY = e.changedTouches[0].clientY
-  const diffX = endX - startX;           
-  const diffY = endY - startY;           
+container.addEventListener("touchend", (e) => {
+  const endX = e.changedTouches[0].clientX;
+  const endY = e.changedTouches[0].clientY;
+  const diffX = endX - startX;
+  const diffY = endY - startY;
   const minMove = 50;
 
-  // Check if horizontal swipe
   if (Math.abs(diffX) > Math.abs(diffY)) {
     const tasks = JSON.parse(localStorage.getItem("tasks"));
     if (Math.abs(diffX) > minMove) {
       if (diffX > 0) {
-        console.log("Swiped left - Showing Completed Tasks");
-        // Handle right swipe action here
-        // window.location.href = "completedTasks.html";
+        let completedTasks = {};
 
-        
+        for (let date in tasks) {
+          tasks[date].task.forEach((task, index) => {
+            if (tasks[date].status[index] === "Completed") {
+              if (!completedTasks[date]) {
+                completedTasks[date] = {
+                  task: [],
+                  taskDescription: [],
+                  priority: [],
+                  dueDate: [],
+                  status: [],
+                  setDate: [],
+                };
+              }
+
+              completedTasks[date].task.push(task);
+              completedTasks[date].taskDescription.push(
+                tasks[date].taskDescription[index]
+              );
+              completedTasks[date].priority.push(tasks[date].priority[index]);
+              completedTasks[date].dueDate.push(tasks[date].dueDate[index]);
+              completedTasks[date].status.push(tasks[date].status[index]);
+              completedTasks[date].setDate.push(date);
+            }
+          });
+        }
+
+        localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+        window.location.href = "completedTask.html";
       } else {
         console.log("Swiped right - Showing High Priority Tasks");
         upcomingHighPriorityTasks = {};
@@ -220,33 +266,40 @@ container.addEventListener('touchend', (e) => {
               }
 
               upcomingHighPriorityTasks[date].task.push(task);
-              upcomingHighPriorityTasks[date].taskDescription.push(tasks[date].taskDescription[index]);
-              upcomingHighPriorityTasks[date].priority.push(tasks[date].priority[index]);
-              upcomingHighPriorityTasks[date].dueDate.push(tasks[date].dueDate[index]);
-              upcomingHighPriorityTasks[date].status.push(tasks[date].status[index]);
+              upcomingHighPriorityTasks[date].taskDescription.push(
+                tasks[date].taskDescription[index]
+              );
+              upcomingHighPriorityTasks[date].priority.push(
+                tasks[date].priority[index]
+              );
+              upcomingHighPriorityTasks[date].dueDate.push(
+                tasks[date].dueDate[index]
+              );
+              upcomingHighPriorityTasks[date].status.push(
+                tasks[date].status[index]
+              );
               upcomingHighPriorityTasks[date].setDate.push(date);
             }
           });
         }
 
-        localStorage.setItem("upcomingHighPriorityTasks", JSON.stringify(upcomingHighPriorityTasks));
-        window.location.href = "highPriorityTasks.html"
+        localStorage.setItem(
+          "upcomingHighPriorityTasks",
+          JSON.stringify(upcomingHighPriorityTasks)
+        );
+        window.location.href = "highPriorityTasks.html";
       }
     }
-  }
-
-  else {
+  } else {
     if (Math.abs(diffY) > minMove) {
       if (diffY > 0) {
-        dateController('up');
+        dateController("up");
       } else {
-        dateController('down');
+        dateController("down");
       }
     }
   }
-;
 });
-
 
 const dateController = (direction) => {
   if (direction == "up") {
