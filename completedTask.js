@@ -26,6 +26,15 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
   };
 
+  const formatDate = (date) => {
+    const dateObj = new Date(date);
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    return `${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
+  };
+
   for (let date in tasks) {
     tasks[date].task.forEach((task, index) => {
       if (tasks[date].status[index] === "Completed") {
@@ -56,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     taskTitle.textContent = task.title;
     startDate.textContent = convertDate(task.startDate);
     description.textContent = task.description;
-    dueDate.textContent = task.dueDate;
+    dueDate.textContent = formatDate(task.dueDate);
     priority.textContent = task.priority;
     status.textContent = task.status;
   };
