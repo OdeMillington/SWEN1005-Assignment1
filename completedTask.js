@@ -36,8 +36,16 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   for (let date in tasks) {
+    if (!tasks[date].completionDate) {
+      tasks[date].completionDate = new Array(tasks[date].task.length).fill(null);
+    }
+    
     tasks[date].task.forEach((task, index) => {
       if (tasks[date].status[index] === "Completed") {
+        if (!tasks[date].completionDate[index]) {
+          tasks[date].completionDate[index] = new Date().toISOString();
+          localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
         taskList.push({
           title: task,
           startDate: date,
@@ -86,9 +94,13 @@ document.addEventListener("DOMContentLoaded", () => {
       priority.style.color = "grey";
     }
 
-    if (task.status === "Completed" && task.completionDate) {
-      const completionDateElement = document.querySelector("#task-completion-date");
-      completionDateElement.textContent = formatDate(task.completionDate);
+    const completionDateElement = document.querySelector("#task-completion-date");
+    if (task.completionDate) {
+        completionDateElement.textContent = formatDate(task.completionDate);
+    } else {
+        // For completed tasks, we'll show today's date if no completion date is set
+        const today = new Date().toISOString();
+        completionDateElement.textContent = formatDate(today);
     }
   };
 

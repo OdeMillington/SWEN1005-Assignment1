@@ -63,7 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
           description: tasks[date].taskDescription[index],
           dueDate: tasks[date].dueDate[index],
           priority: tasks[date].priority[index],
-          status: tasks[date].status[index]
+          status: tasks[date].status[index],
+          completionDate: tasks[date].completionDate[index] // Added completionDate
         });
       }
     });
@@ -104,9 +105,11 @@ document.addEventListener("DOMContentLoaded", () => {
       priority.style.color = "grey";
     }
 
-    if (task.status === "Completed" && task.completionDate) {
-      const completionDateElement = document.querySelector("#task-completion-date");
-      completionDateElement.textContent = formatDate(task.completionDate);
+    const completionDateElement = document.querySelector("#task-completion-date");
+    if (task.completionDate) {
+        completionDateElement.textContent = formatDate(task.completionDate);
+    } else {
+        completionDateElement.textContent = "Not Completed";
     }
   };
 

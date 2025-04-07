@@ -48,12 +48,10 @@ taskduedate.innerHTML = formatDate(taskDetails.dueDate);
 taskpriority.innerHTML = taskDetails.priority;
 
 const taskcompletion = document.querySelector("#task-completion-date");
-const completionDate = taskDetails.completionDate;
-
-if (completionDate) {
-  taskcompletion.innerHTML = formatDate(completionDate);
+if (taskDetails.completionDate) {
+    taskcompletion.innerHTML = formatDate(taskDetails.completionDate);
 } else {
-  taskcompletion.innerHTML = "Not Completed";
+    taskcompletion.innerHTML = "Not Completed";
 }
 
 if (taskDetails.priority == "1") {
@@ -117,21 +115,55 @@ addTask.addEventListener("click", () => {
   tasks[startdateOtherFormat].status[index] = statusValue;
   tasks[startdateOtherFormat].taskDescription[index] = taskDescriptionValue;
 
+  if (!tasks[startdateOtherFormat].completionDate) {
+    tasks[startdateOtherFormat].completionDate = new Array(tasks[startdateOtherFormat].task.length).fill(null);
+  }
+
+  if (statusValue === "Completed") {
+    const today = new Date().toISOString();
+    tasks[startdateOtherFormat].completionDate[index] = today;
+    taskDetails.completionDate = today;
+    
+    // Update UI immediately
+    const taskcompletionElement = document.querySelector("#task-completion-date");
+    if (taskcompletionElement) {
+      taskcompletionElement.innerHTML = formatDate(today);
+    }
+  } else {
+    tasks[startdateOtherFormat].completionDate[index] = null;
+    taskDetails.completionDate = null;
+    
+    // Update UI immediately
+    const taskcompletionElement = document.querySelector("#task-completion-date");
+    if (taskcompletionElement) {
+      taskcompletionElement.innerHTML = "Not Completed";
+    }
+  }
+
   localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem("selectedTask", JSON.stringify(taskDetails));
 
   taskDetails.title = taskTitleValue;
   taskDetails.description = taskDescriptionValue;
   taskDetails.dueDate = dueDateValue;
   taskDetails.priority = priorityValue;
   taskDetails.status = statusValue;
+  taskDetails.completionDate = tasks[startdateOtherFormat].completionDate[index];
 
   localStorage.setItem("selectedTask", JSON.stringify(taskDetails));
 
   tasktitle.innerHTML = taskTitleValue;
   taskdescription.innerHTML = taskDescriptionValue;
-  taskduedate.innerHTML = dueDateValue;
+  taskduedate.innerHTML = formatDate(dueDateValue);
   taskpriority.innerHTML = priorityValue;
   taskstatus.innerHTML = statusValue;
+
+  // Fix completion date reference
+  if (tasks[startdateOtherFormat].completionDate[index]) {
+    taskcompletion.innerHTML = formatDate(tasks[startdateOtherFormat].completionDate[index]);
+  } else {
+    taskcompletion.innerHTML = "Not Completed";
+  }
 
   inputTaskBox.style.display = "none";
 });

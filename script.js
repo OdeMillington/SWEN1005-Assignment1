@@ -115,6 +115,7 @@ const generateCalendar = () => {
             dueDate: tasks[fmtDate].dueDate[index],
             priority: tasks[fmtDate].priority[index],
             status: tasks[fmtDate].status[index],
+            completionDate: tasks[fmtDate].completionDate[index], // Added completionDate
             setDate: fmtDate,
             setDateFormat: tmpDate,
             index: index,
@@ -184,7 +185,14 @@ addTask.addEventListener("click", () => {
   tasks[tempDate].priority.push(priorityValue);
   tasks[tempDate].dueDate.push(dueDateValue);
   tasks[tempDate].status.push(statusValue);
-  tasks[tempDate].completionDate.push(null); // Initially null
+
+  // Initialize completion date based on status
+  if (statusValue === "Completed") {
+    tasks[tempDate].completionDate.push(new Date().toISOString());
+  } else {
+    tasks[tempDate].completionDate.push(null);
+  }
+
   localStorage.setItem("tasks", JSON.stringify(tasks));
 
   location.reload();
@@ -193,8 +201,8 @@ addTask.addEventListener("click", () => {
 
 // Update completion date when task is marked as completed
 const markTaskAsCompleted = (date, index) => {
-  const today = new Date();
-  tasks[date].completionDate[index] = today.toISOString();
+  const today = new Date().toISOString();
+  tasks[date].completionDate[index] = today;
   tasks[date].status[index] = "Completed";
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
@@ -231,18 +239,16 @@ container.addEventListener("touchend", (e) => {
                   priority: [],
                   dueDate: [],
                   status: [],
-                  setDate: [],
+                  completionDate: []
                 };
               }
 
               completedTasks[date].task.push(task);
-              completedTasks[date].taskDescription.push(
-                tasks[date].taskDescription[index]
-              );
+              completedTasks[date].taskDescription.push(tasks[date].taskDescription[index]);
               completedTasks[date].priority.push(tasks[date].priority[index]);
               completedTasks[date].dueDate.push(tasks[date].dueDate[index]);
               completedTasks[date].status.push(tasks[date].status[index]);
-              completedTasks[date].setDate.push(date);
+              completedTasks[date].completionDate.push(tasks[date].completionDate ? tasks[date].completionDate[index] : null);
             }
           });
         }
@@ -266,6 +272,7 @@ container.addEventListener("touchend", (e) => {
                   dueDate: [],
                   status: [],
                   setDate: [],
+                  completionDate: []
                 };
               }
 
@@ -282,7 +289,7 @@ container.addEventListener("touchend", (e) => {
               upcomingHighPriorityTasks[date].status.push(
                 tasks[date].status[index]
               );
-              upcomingHighPriorityTasks[date].setDate.push(date);
+              upcomingHighPriorityTasks[date].completionDate.push(tasks[date].completionDate ? tasks[date].completionDate[index] : null);
             }
           });
         }
@@ -359,6 +366,7 @@ searchInput.addEventListener("input", () => {
             dueDate: tasks[date].dueDate[index],
             priority: tasks[date].priority[index],
             status: tasks[date].status[index],
+            completionDate: tasks[date].completionDate ? tasks[date].completionDate[index] : null,
             setDate: date,
             setDateFormat: formattedDate,
             index: index,
