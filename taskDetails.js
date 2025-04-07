@@ -50,6 +50,12 @@ taskpriority.innerHTML = taskDetails.priority;
 const taskcompletion = document.querySelector("#task-completion-date");
 const completionDate = taskDetails.completionDate;
 
+if (completionDate) {
+  taskcompletion.innerHTML = formatDate(completionDate);
+} else {
+  taskcompletion.innerHTML = "Not Completed";
+}
+
 if (taskDetails.priority == "1") {
   taskpriority.innerHTML = "Critical";
 } else if (taskDetails.priority == "2") {

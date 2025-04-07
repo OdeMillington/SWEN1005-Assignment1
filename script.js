@@ -175,6 +175,7 @@ addTask.addEventListener("click", () => {
       priority: [],
       dueDate: [],
       status: [],
+      completionDate: []
     };
   }
 
@@ -183,11 +184,20 @@ addTask.addEventListener("click", () => {
   tasks[tempDate].priority.push(priorityValue);
   tasks[tempDate].dueDate.push(dueDateValue);
   tasks[tempDate].status.push(statusValue);
+  tasks[tempDate].completionDate.push(null); // Initially null
   localStorage.setItem("tasks", JSON.stringify(tasks));
 
   location.reload();
   inputTaskBox.style.display = "none";
 });
+
+// Update completion date when task is marked as completed
+const markTaskAsCompleted = (date, index) => {
+  const today = new Date();
+  tasks[date].completionDate[index] = today.toISOString();
+  tasks[date].status[index] = "Completed";
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+};
 
 // Source for Swipe functionality: https://www.youtube.com/watch?v=vChlyMwp4ek
 let startX = 0;

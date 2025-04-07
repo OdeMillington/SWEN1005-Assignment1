@@ -44,7 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
           description: tasks[date].taskDescription[index],
           dueDate: tasks[date].dueDate[index],
           priority: tasks[date].priority[index],
-          status: tasks[date].status[index]
+          status: tasks[date].status[index],
+          completionDate: tasks[date].completionDate[index]
         });
       }
     });
@@ -66,8 +67,29 @@ document.addEventListener("DOMContentLoaded", () => {
     startDate.textContent = convertDate(task.startDate);
     description.textContent = task.description;
     dueDate.textContent = formatDate(task.dueDate);
-    priority.textContent = task.priority;
     status.textContent = task.status;
+
+    if (task.priority == "1") {
+      priority.textContent = "Critical";
+      priority.style.color = "#E63946";
+    } else if (task.priority == "2") {
+      priority.textContent = "Urgent";
+      priority.style.color = "orange";
+    } else if (task.priority == "3") {
+      priority.textContent = "High Priority";
+      priority.style.color = "#008080";
+    } else if (task.priority == "4") {
+      priority.textContent = "Medium Priority";
+      priority.style.color = "#6A0DAD";
+    } else {
+      priority.textContent = "Low Priority";
+      priority.style.color = "grey";
+    }
+
+    if (task.status === "Completed" && task.completionDate) {
+      const completionDateElement = document.querySelector("#task-completion-date");
+      completionDateElement.textContent = formatDate(task.completionDate);
+    }
   };
 
   prevBtn.addEventListener("click", () => {
