@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="taskStatistics.js" defer></script>
+    <title>Task Statistics</title>
+</head>
+<body>
+    <div class="statsContainer">
+        <h1>Task Statistics</h1>
+        
+        <div class="statsCards">
+            <div class="statCard">
+                <h3>Completed Tasks</h3>
+                <p id="completedCount">0</p>
+            </div>
+            <div class="statCard">
+                <h3>Pending Tasks</h3>
+                <p id="pendingCount">0</p>
+            </div>
+        </div>
+
+        <div class="chartContainer">
+            <canvas id="priorityChart"></canvas>
+        </div>
+
+        <button id="returnHomeBtn">Back to Calendar</button>
+    </div>
+</body>
+</html>

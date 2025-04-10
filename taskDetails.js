@@ -124,7 +124,6 @@ addTask.addEventListener("click", () => {
     tasks[startdateOtherFormat].completionDate[index] = today;
     taskDetails.completionDate = today;
     
-    // Update UI immediately
     const taskcompletionElement = document.querySelector("#task-completion-date");
     if (taskcompletionElement) {
       taskcompletionElement.innerHTML = formatDate(today);
@@ -133,7 +132,6 @@ addTask.addEventListener("click", () => {
     tasks[startdateOtherFormat].completionDate[index] = null;
     taskDetails.completionDate = null;
     
-    // Update UI immediately
     const taskcompletionElement = document.querySelector("#task-completion-date");
     if (taskcompletionElement) {
       taskcompletionElement.innerHTML = "Not Completed";
@@ -158,7 +156,6 @@ addTask.addEventListener("click", () => {
   taskpriority.innerHTML = priorityValue;
   taskstatus.innerHTML = statusValue;
 
-  // Fix completion date reference
   if (tasks[startdateOtherFormat].completionDate[index]) {
     taskcompletion.innerHTML = formatDate(tasks[startdateOtherFormat].completionDate[index]);
   } else {

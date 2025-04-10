@@ -34,6 +34,12 @@ currentDate = new Date();
 const generateCalendar = () => {
   calendarArea.innerHTML = "";
 
+  // Add stats button at the top
+  const statsButton = document.createElement("button");
+  statsButton.textContent = "View Statistics";
+  statsButton.onclick = () => window.location.href = "taskStatistics.html";
+  calendarArea.appendChild(statsButton);
+
   for (let i = 0; i < 7; i++) {
     const accordion = document.createElement("div");
     const dateContainer = document.createElement("div");
