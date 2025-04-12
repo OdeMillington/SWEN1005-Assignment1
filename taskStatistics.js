@@ -11,12 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
     "Low Priority": 0,
   };
 
-  const returnHomeBtn = document.querySelector("#returnHomeBtn")
+  const returnHomeBtn = document.querySelector("#returnHomeBtn");
   returnHomeBtn.addEventListener("click", () => {
     window.location.href = "index.html";
   });
 
-  // Count tasks by status and priority
   Object.values(tasks).forEach((dateEntry) => {
     dateEntry.task.forEach((_, index) => {
       if (dateEntry.status[index] === "Completed") {
@@ -25,29 +24,16 @@ document.addEventListener("DOMContentLoaded", () => {
         pendingCount++;
       }
 
-      let priority;
-      if (dateEntry.priority[index] === "1") {
-        priority = "Critical";
-      } else if (dateEntry.priority[index] === "2") {
-        priority = "Urgent";
-      } else if (dateEntry.priority[index] === "3") {
-        priority = "High Priority";
-      } else if (dateEntry.priority[index] === "4") {
-        priority = "Medium Priority";
-      } else {
-        priority = "Low Priority";
-      }
+      let priority = getPriorityLabel(dateEntry.priority[index]);
       priorityCounts[priority]++;
     });
   });
 
-  // Update count displays
   document.getElementById("completedCount").textContent = completedCount;
   document.getElementById("pendingCount").textContent = pendingCount;
 
-  // Create bar chart
-  const ctx = document.getElementById("priorityChart").getContext("2d");
-  new Chart(ctx, {
+  const ctxPriority = document.getElementById("priorityChart").getContext("2d");
+  new Chart(ctxPriority, {
     type: "bar",
     data: {
       labels: Object.keys(priorityCounts),
@@ -69,9 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
       scales: {
         y: {
           beginAtZero: true,
-          ticks: {
-            stepSize: 1,
-          },
+          ticks: { stepSize: 1 },
         },
       },
       plugins: {
@@ -80,6 +64,23 @@ document.addEventListener("DOMContentLoaded", () => {
           text: "Task Count By Priority",
         },
       },
+      barPercentage: 0.6,
+      maxBarThickness: 50,
     },
   });
 });
+
+function getPriorityLabel(priority) {
+  switch (priority) {
+    case "1":
+      return "Critical";
+    case "2":
+      return "Urgent";
+    case "3":
+      return "High Priority";
+    case "4":
+      return "Medium Priority";
+    default:
+      return "Low Priority";
+  }
+}

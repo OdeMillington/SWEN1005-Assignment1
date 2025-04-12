@@ -8,6 +8,12 @@
     <title>O's Event Calendar</title>
   </head>
   <body>
+    <div id="validationModal" class="modal">
+      <div class="modal-content">
+        <p>Please fill in Task Title, Start Date, and Due Date fields</p>
+        <button class="modal-button" onclick="closeModal()">OK</button>
+      </div>
+    </div>
     <div class="inputTaskBox" style="display: none">
       <p id="titleInput">Input Task</p>
 
@@ -15,6 +21,11 @@
         <div>
           <label for="taskTitle">Task Title</label>
           <input type="text" name="taskTitle" id="taskTitle" required />
+        </div>
+
+        <div>
+          <label for="startDate">Start Date</label>
+          <input type="date" name="startDate" id="startDate" required />
         </div>
 
         <div>
@@ -44,6 +55,17 @@
         </div>
 
         <div>
+          <label for="category">Category</label>
+          <select name="category" id="category" required>
+            <option value="New Landscaping">New Landscaping</option>
+            <option value="Site Clearing">Site Clearing</option>
+            <option value="Plant Maintenance">Plant Maintenance</option>
+            <option value="Grass Maintenance">Grass Maintenance</option>
+            <option value="General Maintenance">General Maintenance</option>
+          </select>
+        </div>
+
+        <div>
           <label for="taskTitle">Task Description</label>
           <textarea
             name="taskDescription"
@@ -62,6 +84,7 @@
 
     <div class="container">
       <div class="header">
+        <button class="globalAddTaskBtn">⊞</button>
         <input
           type="text"
           name="searchTask"

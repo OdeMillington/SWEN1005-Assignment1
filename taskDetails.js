@@ -23,7 +23,6 @@ const formatDate = (date) => {
   return newDate;
 };
 
-// Formatting to the date format to access each day
 const formatDates = (date) => {
   day = String(date.getDate()).padStart(2, "0");
   month = String(date.getMonth() + 1).padStart(2, "0");
@@ -49,9 +48,9 @@ taskpriority.innerHTML = taskDetails.priority;
 
 const taskcompletion = document.querySelector("#task-completion-date");
 if (taskDetails.completionDate) {
-    taskcompletion.innerHTML = formatDate(taskDetails.completionDate);
+  taskcompletion.innerHTML = formatDate(taskDetails.completionDate);
 } else {
-    taskcompletion.innerHTML = "Not Completed";
+  taskcompletion.innerHTML = "Not Completed";
 }
 
 if (taskDetails.priority == "1") {
@@ -71,7 +70,6 @@ startdate.innerHTML = formatDate(taskDetails.setDateFormat);
 startdateOtherFormat = formatDates(new Date(startdate.innerHTML));
 index = taskDetails.index;
 
-// popup form
 const taskTitleInput = document.querySelector("#taskTitle");
 const taskDescriptionInput = document.querySelector("#taskDescription");
 const dueDateInput = document.querySelector("#dueDate");
@@ -84,6 +82,7 @@ taskDescriptionInput.value = taskDetails.description;
 dueDateInput.value = taskDetails.dueDate;
 priorityInput.value = taskDetails.priority;
 statusInput.value = taskDetails.status;
+document.querySelector("#editCategory").value = taskDetails.category;
 
 const returnHomeBtn = document.querySelector("#returnHomeBtn");
 returnHomeBtn.addEventListener("click", () => {
@@ -100,6 +99,14 @@ closeBtn.addEventListener("click", () => {
   inputTaskBox.style.display = "none";
 });
 
+function showModal() {
+  document.getElementById("validationModal").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("validationModal").style.display = "none";
+}
+
 const addTask = document.querySelector("#addTask");
 
 addTask.addEventListener("click", () => {
@@ -108,31 +115,44 @@ addTask.addEventListener("click", () => {
   const priorityValue = document.querySelector("#priority").value;
   const statusValue = document.querySelector("#status").value;
   const taskDescriptionValue = document.querySelector("#taskDescription").value;
+  const newCategory = document.querySelector("#editCategory").value;
+
+  if (!taskTitleValue || !dueDateValue) {
+    showModal();
+    return;
+  }
 
   tasks[startdateOtherFormat].task[index] = taskTitleValue;
   tasks[startdateOtherFormat].dueDate[index] = dueDateValue;
   tasks[startdateOtherFormat].priority[index] = priorityValue;
   tasks[startdateOtherFormat].status[index] = statusValue;
   tasks[startdateOtherFormat].taskDescription[index] = taskDescriptionValue;
+  tasks[startdateOtherFormat].category[index] = newCategory;
 
   if (!tasks[startdateOtherFormat].completionDate) {
-    tasks[startdateOtherFormat].completionDate = new Array(tasks[startdateOtherFormat].task.length).fill(null);
+    tasks[startdateOtherFormat].completionDate = new Array(
+      tasks[startdateOtherFormat].task.length
+    ).fill(null);
   }
 
   if (statusValue === "Completed") {
     const today = new Date().toISOString();
     tasks[startdateOtherFormat].completionDate[index] = today;
     taskDetails.completionDate = today;
-    
-    const taskcompletionElement = document.querySelector("#task-completion-date");
+
+    const taskcompletionElement = document.querySelector(
+      "#task-completion-date"
+    );
     if (taskcompletionElement) {
       taskcompletionElement.innerHTML = formatDate(today);
     }
   } else {
     tasks[startdateOtherFormat].completionDate[index] = null;
     taskDetails.completionDate = null;
-    
-    const taskcompletionElement = document.querySelector("#task-completion-date");
+
+    const taskcompletionElement = document.querySelector(
+      "#task-completion-date"
+    );
     if (taskcompletionElement) {
       taskcompletionElement.innerHTML = "Not Completed";
     }
@@ -146,7 +166,10 @@ addTask.addEventListener("click", () => {
   taskDetails.dueDate = dueDateValue;
   taskDetails.priority = priorityValue;
   taskDetails.status = statusValue;
-  taskDetails.completionDate = tasks[startdateOtherFormat].completionDate[index];
+  taskDetails.completionDate =
+    tasks[startdateOtherFormat].completionDate[index];
+  taskDetails.category = newCategory;
+  document.querySelector("#task-category").textContent = newCategory;
 
   localStorage.setItem("selectedTask", JSON.stringify(taskDetails));
 
@@ -157,7 +180,9 @@ addTask.addEventListener("click", () => {
   taskstatus.innerHTML = statusValue;
 
   if (tasks[startdateOtherFormat].completionDate[index]) {
-    taskcompletion.innerHTML = formatDate(tasks[startdateOtherFormat].completionDate[index]);
+    taskcompletion.innerHTML = formatDate(
+      tasks[startdateOtherFormat].completionDate[index]
+    );
   } else {
     taskcompletion.innerHTML = "Not Completed";
   }
@@ -165,53 +190,73 @@ addTask.addEventListener("click", () => {
   inputTaskBox.style.display = "none";
 });
 
-// TODO: Find way to make it go across differnet days
-const prevBtn = document.querySelector(".prevBtn");
-const nextBtn = document.querySelector(".nextBtn");
+const navigateTask = (direction) => {
+  const allTasks = [];
+  for (let date in tasks) {
+    tasks[date].task.forEach((task, idx) => {
+      allTasks.push({
+        title: task,
+        description: tasks[date].taskDescription[idx],
+        dueDate: tasks[date].dueDate[idx],
+        priority: tasks[date].priority[idx],
+        status: tasks[date].status[idx],
+        completionDate: tasks[date].completionDate
+          ? tasks[date].completionDate[idx]
+          : null,
+        category: tasks[date].category[idx],
+        setDate: date,
+        setDateFormat: new Date(
+          "20" + date.slice(-2),
+          parseInt(date.substring(2, 4)) - 1,
+          date.substring(0, 2)
+        ),
+        index: idx,
+      });
+    });
+  }
 
-prevBtn.addEventListener("click", () => navigateTask(-1));
-nextBtn.addEventListener("click", () => navigateTask(1));
+  const currentTaskIndex = allTasks.findIndex(
+    (task) =>
+      task.setDate === taskDetails.setDate && task.index === taskDetails.index
+  );
 
-const navigateTask = (amt) => {
-  const currentTasks = tasks[taskDetails.setDate].task; // to check later if at the end of the tasks
-  newIndex = taskDetails.index + amt;
-
-  if (newIndex >= 0 && newIndex < currentTasks.length) {
-    taskDetails.index = newIndex;
-    taskDetails.title = tasks[taskDetails.setDate].task[newIndex];
-    taskDetails.description = tasks[taskDetails.setDate].taskDescription[newIndex];
-    taskDetails.dueDate = tasks[taskDetails.setDate].dueDate[newIndex];
-    taskDetails.priority = tasks[taskDetails.setDate].priority[newIndex];
-    taskDetails.status = tasks[taskDetails.setDate].status[newIndex];
-
-    localStorage.setItem("selectedTask", JSON.stringify(taskDetails));
-    location.reload();
-  } else {
-    newIndex = 0;
-    let date = new Date(taskDetails.setDateFormat);
-    let date2 = new Date(taskDetails.setDateFormat); // date object format
-
-    if (amt == 1) {
-      date.setDate(date.getDate() + 1);
-      date2.setDate(date2.getDate() + 1);
-    } else {
-      date.setDate(date.getDate() - 1);
-      date2.setDate(date2.getDate() - 1);
+  if (currentTaskIndex !== -1) {
+    const newIndex = currentTaskIndex + direction;
+    if (newIndex >= 0 && newIndex < allTasks.length) {
+      localStorage.setItem("selectedTask", JSON.stringify(allTasks[newIndex]));
+      location.reload();
     }
-
-    date = formatDates(date); // format for accessing
-
-    // work on easier way but works for now
-    taskDetails.title = tasks[date].task[newIndex];
-    taskDetails.description = tasks[date].taskDescription[newIndex];
-    taskDetails.dueDate = tasks[date].dueDate[newIndex];
-    taskDetails.priority = tasks[date].priority[newIndex];
-    taskDetails.status = tasks[date].status[newIndex];
-    taskDetails.setDate = date;
-    taskDetails.setDateFormat = date2;
-    taskDetails.index = 0;
-
-    localStorage.setItem("selectedTask", JSON.stringify(taskDetails));
-    location.reload();
   }
 };
+
+let startY = 0;
+
+document.addEventListener("touchstart", (e) => {
+  startY = e.touches[0].clientY;
+});
+
+document.addEventListener("touchend", (e) => {
+  const endY = e.changedTouches[0].clientY;
+  const diffY = endY - startY;
+  const minMove = 50;
+
+  if (Math.abs(diffY) > minMove) {
+    if (diffY > 0) {
+      navigateTask(-1);
+    } else {
+      navigateTask(1);
+    }
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const taskCategory = document.querySelector("#task-category");
+  if (taskDetails.category) {
+    taskCategory.textContent = taskDetails.category;
+  }
+
+  const editCategorySelect = document.querySelector("#editCategory");
+  if (taskDetails.category) {
+    editCategorySelect.value = taskDetails.category;
+  }
+});

@@ -5,8 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const dueDate = document.querySelector("#task-due-date");
   const priority = document.querySelector("#task-priority");
   const status = document.querySelector("#task-status");
-  const prevBtn = document.querySelector(".prevBtn");
-  const nextBtn = document.querySelector(".nextBtn");
   const returnHomeBtn = document.querySelector("#returnHomeBtn");
 
   let tasks = JSON.parse(localStorage.getItem("upcomingHighPriorityTasks"));
@@ -42,13 +40,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const formatDate = (date) => {
     const dateObj = new Date(date);
     const monthNames = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ];
-    return `${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
+    return `${
+      monthNames[dateObj.getMonth()]
+    } ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
   };
 
-  // Filter tasks to only include upcoming high-priority tasks that are not completed
   for (let date in tasks) {
     tasks[date].task.forEach((task, index) => {
       const dueDate = new Date(tasks[date].dueDate[index]);
@@ -64,7 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
           dueDate: tasks[date].dueDate[index],
           priority: tasks[date].priority[index],
           status: tasks[date].status[index],
-          completionDate: tasks[date].completionDate[index] // Added completionDate
+          completionDate: tasks[date].completionDate[index],
+          category: tasks[date].category[index]
         });
       }
     });
@@ -105,31 +115,70 @@ document.addEventListener("DOMContentLoaded", () => {
       priority.style.color = "grey";
     }
 
-    const completionDateElement = document.querySelector("#task-completion-date");
+    const completionDateElement = document.querySelector(
+      "#task-completion-date"
+    );
     if (task.completionDate) {
-        completionDateElement.textContent = formatDate(task.completionDate);
+      completionDateElement.textContent = formatDate(task.completionDate);
     } else {
-        completionDateElement.textContent = "Not Completed";
+      completionDateElement.textContent = "Not Completed";
+    }
+
+    const taskCategory = document.querySelector("#task-category");
+    if (taskCategory && task.category) {
+      taskCategory.textContent = task.category;
     }
   };
-
-  prevBtn.addEventListener("click", () => {
-    if (currentIndex > 0) {
-      currentIndex--;
-      updateTaskDetails();
-    }
-  });
-
-  nextBtn.addEventListener("click", () => {
-    if (currentIndex < taskList.length - 1) {
-      currentIndex++;
-      updateTaskDetails();
-    }
-  });
 
   returnHomeBtn.addEventListener("click", () => {
     window.location.href = "index.html";
   });
 
+  const viewDetailsBtn = document.querySelector("#viewDetailsBtn");
+  if (viewDetailsBtn) {
+    viewDetailsBtn.addEventListener("click", () => {
+      const selectedTask = {
+        title: taskList[currentIndex].title,
+        description: taskList[currentIndex].description,
+        dueDate: taskList[currentIndex].dueDate,
+        priority: taskList[currentIndex].priority,
+        status: taskList[currentIndex].status,
+        completionDate: taskList[currentIndex].completionDate,
+        category: taskList[currentIndex].category,
+        setDate: taskList[currentIndex].startDate,
+        setDateFormat: new Date(
+          "20" + taskList[currentIndex].startDate.slice(-2),
+          parseInt(taskList[currentIndex].startDate.substring(2, 4)) - 1,
+          parseInt(taskList[currentIndex].startDate.substring(0, 2))
+        ),
+        index: currentIndex,
+      };
+      localStorage.setItem("selectedTask", JSON.stringify(selectedTask));
+      window.location.href = "taskDetails.html";
+    });
+  }
+
   updateTaskDetails();
+
+  let startY = 0;
+
+  document.addEventListener("touchstart", (e) => {
+    startY = e.touches[0].clientY;
+  });
+
+  document.addEventListener("touchend", (e) => {
+    const endY = e.changedTouches[0].clientY;
+    const diffY = endY - startY;
+    const minMove = 50;
+
+    if (Math.abs(diffY) > minMove) {
+      if (diffY > 0 && currentIndex > 0) {
+        currentIndex--;
+        updateTaskDetails();
+      } else if (diffY < 0 && currentIndex < taskList.length - 1) {
+        currentIndex++;
+        updateTaskDetails();
+      }
+    }
+  });
 });

@@ -8,6 +8,12 @@
     <title>Task Details</title>
   </head>
   <body>
+    <div id="validationModal" class="modal">
+      <div class="modal-content">
+        <p>Please fill in both Task Title and Due Date fields</p>
+        <button class="modal-button" onclick="closeModal()">OK</button>
+      </div>
+    </div>
     <div class="inputTaskBox" style="display: none">
       <p id="titleInput">Edit Task</p>
 
@@ -19,7 +25,6 @@
 
         <div>
           <label for="dueDate">Due Date</label>
-          <!-- TODO: Set due date to current date+1 -->
           <input type="date" name="dueDate" id="dueDate" required />
         </div>
 
@@ -51,6 +56,17 @@
             required
           ></textarea>
         </div>
+
+        <div>
+          <label for="category">Category</label>
+          <select name="category" id="editCategory" required>
+            <option value="New Landscaping">New Landscaping</option>
+            <option value="Site Clearing">Site Clearing</option>
+            <option value="Plant Maintenance">Plant Maintenance</option>
+            <option value="Grass Maintenance">Grass Maintenance</option>
+            <option value="General Maintenance">General Maintenance</option>
+          </select>
+        </div>
       </div>
 
       <button id="addTask">Confirm</button>
@@ -62,16 +78,12 @@
         <div class="taskDetails">
           <h1 class="task-title">Task Title</h1>
           <p><strong>Start Date:</strong> <span id="start-date"></span></p>
-          <p><strong>Description:</strong> <span id="task-description"></span></p>
-          <p><strong>Due Date:</strong> <span id="task-due-date"></span></p>
           <p><strong>Completion Date:</strong> <span id="task-completion-date"></span></p>
+          <p><strong>Due Date:</strong> <span id="task-due-date"></span></p>
+          <p><strong>Description:</strong> <span id="task-description"></span></p>
           <p><strong>Priority:</strong> <span id="task-priority"></span></p>
           <p><strong>Status:</strong> <span id="task-status"></span></p>
-
-          <div class="navButtons">
-            <button class="prevBtn">Previous Task</button>
-            <button class="nextBtn">Next Task</button>
-          </div>
+          <p><strong>Category:</strong> <span id="task-category"></span></p>
           <button class="editTaskBtn">Edit Task</button>
           <button id="returnHomeBtn">Return to Calendar View</button>
         </div>

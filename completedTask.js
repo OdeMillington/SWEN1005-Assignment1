@@ -5,8 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const dueDate = document.querySelector("#task-due-date");
   const priority = document.querySelector("#task-priority");
   const status = document.querySelector("#task-status");
-  const prevBtn = document.querySelector(".prevBtn");
-  const nextBtn = document.querySelector(".nextBtn");
   const returnHomeBtn = document.querySelector("#returnHomeBtn");
 
   let tasks = JSON.parse(localStorage.getItem("tasks")) || {};
@@ -20,26 +18,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let dateObj = new Date(year, month - 1, day);
     const monthNames = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ];
-    return `${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
+    return `${
+      monthNames[dateObj.getMonth()]
+    } ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
   };
 
   const formatDate = (date) => {
     const dateObj = new Date(date);
     const monthNames = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ];
-    return `${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
+    return `${
+      monthNames[dateObj.getMonth()]
+    } ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
   };
 
   for (let date in tasks) {
     if (!tasks[date].completionDate) {
-      tasks[date].completionDate = new Array(tasks[date].task.length).fill(null);
+      tasks[date].completionDate = new Array(tasks[date].task.length).fill(
+        null
+      );
     }
-    
+
     tasks[date].task.forEach((task, index) => {
       if (tasks[date].status[index] === "Completed") {
         if (!tasks[date].completionDate[index]) {
@@ -53,7 +77,9 @@ document.addEventListener("DOMContentLoaded", () => {
           dueDate: tasks[date].dueDate[index],
           priority: tasks[date].priority[index],
           status: tasks[date].status[index],
-          completionDate: tasks[date].completionDate[index]
+          category: tasks[date].category[index],
+          completionDate: tasks[date].completionDate[index],
+          index: index,
         });
       }
     });
@@ -94,32 +120,65 @@ document.addEventListener("DOMContentLoaded", () => {
       priority.style.color = "grey";
     }
 
-    const completionDateElement = document.querySelector("#task-completion-date");
+    const completionDateElement = document.querySelector(
+      "#task-completion-date"
+    );
     if (task.completionDate) {
-        completionDateElement.textContent = formatDate(task.completionDate);
+      completionDateElement.textContent = formatDate(task.completionDate);
     } else {
-        // For completed tasks, we'll show today's date if no completion date is set
-        const today = new Date().toISOString();
-        completionDateElement.textContent = formatDate(today);
+      completionDateElement.textContent = "Not Completed";
     }
+
+    const selectedTask = {
+      title: task.title,
+      description: task.description,
+      dueDate: task.dueDate,
+      priority: task.priority,
+      status: task.status,
+      completionDate: task.completionDate,
+      setDate: task.startDate,
+      category: task.category,
+      setDateFormat: new Date(
+        "20" + task.startDate.slice(-2),
+        parseInt(task.startDate.substring(2, 4)) - 1,
+        parseInt(task.startDate.substring(0, 2))
+      ),
+      index: task.index,
+    };
+    localStorage.setItem("selectedTask", JSON.stringify(selectedTask));
   };
-
-  prevBtn.addEventListener("click", () => {
-    if (currentIndex > 0) {
-      currentIndex--;
-      updateTaskDetails();
-    }
-  });
-
-  nextBtn.addEventListener("click", () => {
-    if (currentIndex < taskList.length - 1) {
-      currentIndex++;
-      updateTaskDetails();
-    }
-  });
 
   returnHomeBtn.addEventListener("click", () => {
     window.location.href = "index.html";
+  });
+
+  const viewDetailsBtn = document.querySelector("#viewDetailsBtn");
+  if (viewDetailsBtn) {
+    viewDetailsBtn.addEventListener("click", () => {
+      window.location.href = "taskDetails.html";
+    });
+  }
+
+  let startY = 0;
+
+  document.addEventListener("touchstart", (e) => {
+    startY = e.touches[0].clientY;
+  });
+
+  document.addEventListener("touchend", (e) => {
+    const endY = e.changedTouches[0].clientY;
+    const diffY = endY - startY;
+    const minMove = 50;
+
+    if (Math.abs(diffY) > minMove) {
+      if (diffY > 0 && currentIndex > 0) {
+        currentIndex--;
+        updateTaskDetails();
+      } else if (diffY < 0 && currentIndex < taskList.length - 1) {
+        currentIndex++;
+        updateTaskDetails();
+      }
+    }
   });
 
   updateTaskDetails();
